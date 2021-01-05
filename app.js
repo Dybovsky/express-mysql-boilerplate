@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const AJV = require('ajv').default;
@@ -15,7 +14,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
   req.validate = (schema) => {
@@ -23,7 +21,7 @@ app.use(function (req, res, next) {
     const validate = ajv.compile(schema.valueOf());
     const valid = validate(req.body);
     if (!valid) {
-      res.status(403).send({ errors: validate.errors });
+      res.status(400).send({ errors: validate.errors });
       return false;
     }
     return true;
