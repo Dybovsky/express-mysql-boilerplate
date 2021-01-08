@@ -2,14 +2,12 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const AJV = require('ajv').default;
-const { migrate } = require('./lib/mysql');
 const indexRouter = require('./routes/index');
 const productsRouter = require('./routes/products');
 const usersRouter = require('./routes/users');
 require('dotenv').config();
 
 const app = express();
-migrate().then(console.log).catch(console.error);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
