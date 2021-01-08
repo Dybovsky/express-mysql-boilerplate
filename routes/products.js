@@ -3,7 +3,7 @@ const { insertProduct, getProducts } = require('../lib/queries/products');
 const S = require('fluent-json-schema');
 
 router.get('/', async function (req, res) {
-  const results = await getProducts()
+  const results = await getProducts(req.query.isActive === 'true');
   res.send({ products: results });
 });
 

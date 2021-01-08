@@ -20,8 +20,8 @@ router.use(function (req, res, next) {
 });
 
 const EmailPasswordSchema = S.object()
-.prop('email', S.string().required())
-.prop('password',S.string().minLength(6).required());
+  .prop('email', S.string().required())
+  .prop('password', S.string().minLength(6).required());
 
 router.post('/', async (req, res) => {
   if (req.validate(EmailPasswordSchema)) {
