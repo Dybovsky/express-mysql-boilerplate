@@ -7,7 +7,6 @@ router.get('/', async function (req, res) {
   res.send({ products: results });
 });
 
-
 const NewProductSchema = S.object()
   .prop('name', S.string().required())
   .prop('price', S.number().required());

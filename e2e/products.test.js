@@ -1,26 +1,31 @@
 const app = require('../app');
 const request = require('supertest');
-const { query } = require('../lib/mysql');
 const faker = require('faker');
+const { query } = require('../lib/mysql');
 
 describe('Create and get products', () => {
-  const createProduct = { name: faker.commerce.productName(), price: +faker.commerce.price() };
+  const product = {
+    name: faker.commerce.productName(),
+    price: Math.round(faker.random.number()),
+  };
 
   afterAll(async () => {
-    await query(`DELETE FROM products WHERE id = '${createProduct.id}'`);
+    await query(`DELETE * FROM products WHERE id = '${product.id}'`);
   });
 
-  it('Insert product', async () => {
-    const res = await request(app).post('/products').send(createProduct);
+  it('Should create new product', async () => {
+    const res = await request(app).post('/products').send(product);
     expect(res.statusCode).toBe(200);
     expect(res.body.id).toBeDefined();
-    createProduct.id = res.body.id
+    product.id = res.body.id;
   });
 
-  it('Get non active products', async () => {
-    const res = await request(app).get(`/products?isActive=false`);
+  it('Should get new created product', async () => {
+    const res = await request(app).get('/products?isActive=false');
     expect(res.statusCode).toBe(200);
     expect(res.body.products.length).toBe(1);
-    expect(res.body.products[0].id).toEqual(createProduct.id);
+    const [resProduct] = res.body.products;
+    expect(resProduct.name).toBe(product.name);
+    expect(resProduct.price).toBe(product.price);
   });
-});
+})
