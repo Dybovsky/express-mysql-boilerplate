@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -5,7 +6,6 @@ const AJV = require('ajv').default;
 const indexRouter = require('./routes/index');
 const productsRouter = require('./routes/products');
 const usersRouter = require('./routes/users');
-require('dotenv').config();
 
 const app = express();
 app.use(logger('dev'));
